@@ -3,7 +3,7 @@ package com.example.weather.model.weather
 import com.google.gson.annotations.SerializedName
 
 data class WeatherResult(
-    @SerializedName("coord") var cood: Coord? = Coord(),
+    @SerializedName("coord") var coord: Coord? = Coord(),
     @SerializedName("weather") var weather: ArrayList<Weather>? = arrayListOf(),
     @SerializedName("base") var base: String? = null,
     @SerializedName("main") var Main: Main? = Main(),

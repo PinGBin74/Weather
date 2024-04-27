@@ -44,8 +44,8 @@ import com.example.weather.constant.Const.Companion.colorBg2
 import com.example.weather.constant.Const.Companion.permissions
 import com.example.weather.model.ForecastResult.ForecastResult
 import com.example.weather.model.MyLatLng
-import com.example.weather.model.weather.WeatherResult
 import com.example.weather.ui.theme.WeatherTheme
+import com.example.weather.view.WeatherSection
 import com.example.weather.viewmodel.MainViewModel
 import com.example.weather.viewmodel.STATE
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
     private fun startLocationUpdate() {
         locationCallback?.let {
             val locationRequest = LocationRequest.Builder(
-                Priority.PRIORITY_HIGH_ACCURACY, 100L
+                Priority.PRIORITY_HIGH_ACCURACY, 100
             )
                 .setWaitForAccurateLocation(false)
                 .setMinUpdateIntervalMillis(3000)
@@ -194,7 +194,11 @@ class MainActivity : ComponentActivity() {
                     launcherMultiplePermissions.launch(permissions)
                 }
             }
+
         })
+        Text(text="${currentLocation.lat}/${currentLocation.lng}")
+
+
 
         val gradient = Brush.linearGradient(
             colors = listOf(Color(colorBg1), Color(colorBg2)),
@@ -231,16 +235,20 @@ class MainActivity : ComponentActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
-                if (mainViewModel.state == STATE.LOADING) {
-                    LoadingSection()
+                when (mainViewModel.state) {
+                    STATE.LOADING -> {
+                        LoadingSection()
 
-                } else if (
-                    mainViewModel.state == STATE.FAILED) {
-                    ErrorSection(mainViewModel.errorMessage)
-                } else {
-                    WeatherSection(mainViewModel.weatherResponse)
-                    ForecastSection(mainViewModel.forecastResponse)
+                    }
+                    STATE.FAILED -> {
+                        ErrorSection(mainViewModel.errorMessage)
+                    }
+                    else -> {
 
+                        WeatherSection(mainViewModel.weatherResponse)
+                        ForecastSection(mainViewModel.forecastResponse)
+
+                    }
                 }
             }
 
@@ -261,18 +269,7 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    @Composable
-    fun WeatherSection(weatherResponse: WeatherResult) {
-        return Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = weatherResponse.toString())
 
-        }
-
-    }
 
     @Composable
     fun ErrorSection(errorMessage: String) {
@@ -302,6 +299,7 @@ class MainActivity : ComponentActivity() {
             .getFusedLocationProviderClient(this)
     }
 }
+
 
 
 
