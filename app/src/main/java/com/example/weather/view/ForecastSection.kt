@@ -83,6 +83,7 @@ fun ForecastTile(temp: String, image: String, time: String) {
             contentColor = Color.White
 
         )
+        Car
 
 
     )
