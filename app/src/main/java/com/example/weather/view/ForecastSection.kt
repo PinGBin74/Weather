@@ -21,7 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.weather.constant.Const.Companion.NA
-import com.example.weather.constant.Const.Companion
+import com.example.weather.constant.Const.Companion.cardColor
 import com.example.weather.model.ForecastResult.ForecastResult
 import com.example.weather.utils.Utils.Companion.buildIcon
 import com.example.weather.utils.Utils.Companion.timestampToHumanDate
@@ -70,6 +70,7 @@ fun ForecastSection(forecastResponse: ForecastResult) {
 
 @Composable
 fun ForecastTile(temp: String, image: String, time: String) {
+
     Card(
         modifier = Modifier
             .padding(20.dp)
@@ -83,25 +84,24 @@ fun ForecastTile(temp: String, image: String, time: String) {
             contentColor = Color.White
 
         )
-        Car
 
 
     )
     {
         Column(
-            modifier = Modifier.padding(80.dp),
+            modifier = Modifier.padding(60.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = temp.ifEmpty { NA }, color = Color.White)
-            AsyncImage(
-                model = image, contentDescription = image,
+            AsyncImage(model = image, contentDescription = image,
                 modifier = Modifier
                     .width(50.dp)
                     .height(50.dp),
                 contentScale = ContentScale.FillBounds
             )
-            Text(text=time.ifEmpty { NA },color= Color.White)
+            Text(text = time.ifEmpty { NA }, color = Color.White)
+
 
 
         }

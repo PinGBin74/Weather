@@ -2,8 +2,10 @@ package com.example.weather.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,9 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.weather.constant.Const.Companion.LOADING
+import com.example.weather.constant.Const.Companion.NA
 import com.example.weather.model.weather.WeatherResult
 import com.example.weather.utils.Utils.Companion.buildIcon
 import com.example.weather.utils.Utils.Companion.timestampToHumanDate
+import com.guru.fontawesomecomposelib.FaIcon
+import com.guru.fontawesomecomposelib.FaIconType
+import com.guru.fontawesomecomposelib.FaIcons
+
 
 @Composable
 fun WeatherSection(weatherResponse: WeatherResult) {
@@ -47,30 +54,83 @@ fun WeatherSection(weatherResponse: WeatherResult) {
 
 
 //icon
-    var icon=""
+    var icon = ""
+    var descrption = ""
     weatherResponse.weather.let {
-        if(it!!.size>0){
-            icon=if(it[0].icon==null) LOADING else it[0].icon!!
+        if (it!!.size > 0) {
+            descrption = if (it[0].description == null) LOADING else
+                it[0].description!!
+            icon = if (it[0].icon == null) LOADING else it[0].icon!!
 
         }
     }
-   /* var temp=""
-    weatherResponse.main?.let{
-    temp="${it.temp} "
-    }*/
+
+    //temp
+    var temp = ""
+    weatherResponse.Main?.let {
+
+        temp = "${it.temp} ºC"
+    }
+
+
+    //wind
+    var wind = ""
+    weatherResponse.wind.let {
+        wind = if (it == null) LOADING else "${it.speed}"
+    }
+
+    //clouds
+    var clouds = ""
+    weatherResponse.clouds.let {
+        clouds = if (it == null) LOADING else "${it.all}"
+    }
+
+
+    //snow
+
+    var snow = ""
+    weatherResponse.snow.let {
+        snow = if (it!!.d1h == null) NA else "${it.d1h}"
+    }
 
     WeatherTitleSection(text = title, subText = subTitle, fontSize = 30.sp)
-    WeatherImage(icon=icon)
-   // WeatherTitleSection(text=temp,subText=descrption, fontSize = 60.sp)
+    WeatherImage(icon = icon)
+    WeatherTitleSection(text = temp, subText = descrption, fontSize = 60.sp)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        WeatherInfo(icon = FaIcons.Wind, text = wind)
+        WeatherInfo(icon = FaIcons.Cloud, text = clouds)
+        WeatherInfo(icon = FaIcons.Snowflake, text = snow)
+    }
+
+
+}
+
+@Composable
+fun WeatherInfo(icon: FaIconType.SolidIcon, text: String) {
+
+
+    Column {
+        FaIcon(faIcon = icon, size = 48.dp, tint = Color.White)
+        Text(text, fontSize = 24.sp, color = Color.White)
+    }
 
 
 }
 
 @Composable
 fun WeatherImage(icon: String) {
-    AsyncImage(model = buildIcon(icon), contentDescription =icon,
-        modifier = Modifier.width(200.dp).height(200.dp),
-        contentScale= ContentScale.FillBounds)
+    AsyncImage(
+        model = buildIcon(icon), contentDescription = icon,
+        modifier = Modifier
+            .width(200.dp)
+            .height(200.dp),
+        contentScale = ContentScale.FillBounds
+    )
 }
 
 @Composable

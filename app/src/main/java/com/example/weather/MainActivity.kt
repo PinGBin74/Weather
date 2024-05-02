@@ -42,9 +42,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.weather.constant.Const.Companion.colorBg1
 import com.example.weather.constant.Const.Companion.colorBg2
 import com.example.weather.constant.Const.Companion.permissions
-import com.example.weather.model.ForecastResult.ForecastResult
 import com.example.weather.model.MyLatLng
 import com.example.weather.ui.theme.WeatherTheme
+import com.example.weather.view.ForecastSection
 import com.example.weather.view.WeatherSection
 import com.example.weather.viewmodel.MainViewModel
 import com.example.weather.viewmodel.STATE
@@ -215,7 +215,7 @@ class MainActivity : ComponentActivity() {
         )
         {
             val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-            val marginTop = screenHeight * 0.3f
+            val marginTop = screenHeight * 0.1f
             val marginTopPx = with(LocalDensity.current) { marginTop.toPx() }
 
             Column(
@@ -256,18 +256,22 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    @Composable
+    /*@Composable
     fun ForecastSection(forecastResponse: ForecastResult) {
         return Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = forecastResponse.toString())
-
+forecastResponse.list?.let {
+    listForecast->
+    if(listForecast.size>0){
+        Laz
+    }
+}
         }
 
-    }
+    }*/
 
 
 
